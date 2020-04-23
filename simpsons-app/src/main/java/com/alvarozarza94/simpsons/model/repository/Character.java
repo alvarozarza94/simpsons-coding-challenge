@@ -1,15 +1,19 @@
 package com.alvarozarza94.simpsons.model.repository;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "character", schema = "testdb")
 public class Character {
     @Id
@@ -26,7 +30,7 @@ public class Character {
 
     private Integer age;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "character_fk")
     List<Phrase> phrases;
 
