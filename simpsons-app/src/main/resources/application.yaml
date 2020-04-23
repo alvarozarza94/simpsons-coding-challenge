@@ -4,3 +4,34 @@
 server:
   port: 8083
 
+########################
+#   Database Settings
+########################
+spring:
+  datasource:
+    url: jdbc:h2:mem;INIT=CREATE SCHEMA IF NOT EXISTS TESTDB
+    platform: h2
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+    initialization: always
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+
+  ##################
+  #   H2 Settings
+  ##################
+  h2:
+    console:
+      enabled: true
+      path: /console
+      settings:
+        trace: false
+        web-allow-others: false
