@@ -10,7 +10,7 @@ import java.util.List;
 public class Character {
 
     private String id;
-    private String firtsName;
+    private String firstName;
     private String lastName;
     private String picture;
     private Integer age;

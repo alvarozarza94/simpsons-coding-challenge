@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>The Simpsons</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css">
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet"
           href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
@@ -20,6 +23,7 @@
           crossorigin="anonymous">
 
     <script src="/index.js"></script>
+    <script src="/requests.js"></script>
 </head>
 
 <body>
@@ -33,47 +37,34 @@
                 <h1>My Simpsons characteres Web</h1>
                 <p>This web allow us to see all the information about the characters of The Simpsons</p>
             </div>
+
             <div class="container">
+
+                <div class="float-right">
+                    <a class="btn btn-warning pull-right" id="buttonAddSimpson" data-toggle="modal"
+                       data-target="#exampleModal">
+                        <i class="fas fa-user-plus ml-2"> Add Simpson</i></a>
+                </div>
+
                 <div>
-                    <table class="table table-dark table-striped">
+
+                    <table id="table" class="table table-bordered table-striped mb-0">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Surname</th>
-                            <th>Age</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th data-field="id">ID</th>
+                            <th data-field="firstName">First Name</th>
+                            <th data-field="lastName">Last Name</th>
+                            <th data-field="picture" data-formatter="imageFormatter">Picture</th>
+                            <th data-field="age">Age</th>
+                            <th data-field="id" data-formatter="editFormatter">Edit</th>
+                            <th data-field="id" data-formatter="deleteFormatter">Delete</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td th:text="Homer"></td>
-                            <td th:text="SIMPSON"></td>
-                            <td th:text="43"></td>
-                            <td><a
-                                    class="btn btn-warning "><i class="fas fa-user-edit ml-2"></i></a></td>
-                            <td><a
 
-                                    class="btn btn-warning"><i class="fas fa-user-times ml-2"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td th:text="Marge"></td>
-                            <td th:text="SIMPSON"></td>
-                            <td th:text="40"></td>
-                            <td><a
-                                    class="btn btn-warning"><i class="fas fa-user-edit ml-2"></i></a></td>
-                            <td><a
-
-                                    class="btn btn-warning"><i class="fas fa-user-times ml-2"></i></a></td>
-                        </tr>
-                        </tbody>
                     </table>
                 </div>
 
-                <p>
-                    <a class="btn btn-warning" id="buttonAddSimpson" data-toggle="modal" data-target="#exampleModal">
-                        <i class="fas fa-user-plus ml-2"> Add Simpson</i></a>
-                </p>
+
             </div>
 
         </div>
@@ -91,29 +82,51 @@
                     </div>
                     <div class="modal-body">
                         <div class="panel-body">
-                            <div class="form-group col-md-12 col-lg-12">
-                                <form id="modalFile">
-                                    <div class="form-group">
-
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="form-group col-md-12 col-lg-12">
-
-                                <div class="sufee-alert d-none alert with-close alert-primary alert-dismissible fade show"
-                                     id="processFich">
-                                    <span class="badge badge-pill badge-primary">Processing</span>
-                                    Simpson Added
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">�</span>
-                                    </button>
-                                </div>
-                            </div>
+                            <div class="input-group-addon"><i>First name</i></div>
+                            <input class="form-control" id="newFirstName" required>
+                            <div class="input-group-addon"><i>Last name</i></div>
+                            <input class="form-control" id="newLastName" required>
+                            <div class="input-group-addon"><i>Age</i></div>
+                            <input class="form-control" id="newAge" required type="number">
+                            <div class="input-group-addon"><i>Picture</i></div>
+                            <input class="form-control" id="newPicture" required>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="submit" id="sendData" class="btn btn-primary submit">Add Simpson
+                        <button type="submit" onclick="addSimpson()" class="btn btn-primary submit">Add Simpson
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade " id="editModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Simpson</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel-body">
+                            <input type="hidden" id="idEdited">
+                            <div class="input-group-addon"><i>First name</i></div>
+                            <input class="form-control" id="addFirstName" required>
+                            <div class="input-group-addon"><i>Last name</i></div>
+                            <input class="form-control" id="addLastName" required>
+                            <div class="input-group-addon"><i>Age</i></div>
+                            <input class="form-control" id="addAge" type="number" required>
+                            <div class="input-group-addon"><i>Picture</i></div>
+                            <input class="form-control" id="addPicture" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" onclick="updateSimpson()" class="btn btn-primary submit">Edit Simpson
                         </button>
                     </div>
                 </div>
