@@ -10,8 +10,8 @@ import java.util.List;
 public class CharacterPayload {
 
 
-    @NotNull(message = "The firtsName field is mandatory")
-    private String firtsName;
+    @NotNull(message = "The firstName field is mandatory")
+    private String firstName;
 
     @NotNull(message = "The lastName field is mandatory")
     private String lastName;

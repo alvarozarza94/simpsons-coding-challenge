@@ -9,6 +9,7 @@ import com.alvarozarza94.simpsons.repository.CharacterRepository;
 import com.alvarozarza94.simpsons.service.CharacterService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -17,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CharacterServieImpl implements CharacterService {
@@ -29,7 +31,7 @@ public class CharacterServieImpl implements CharacterService {
 
     @Override
     public List<Character> getCharacters() {
-        return defaultMapper.mapAsList(characterRepository.findAll(), Character.class);
+        return defaultMapper.mapAsList(characterRepository.findAll(sortByIdAsc()), Character.class);
     }
 
     @Override
@@ -44,7 +46,7 @@ public class CharacterServieImpl implements CharacterService {
         String generatedId = RandomStringFactory.createRandomString();
         com.alvarozarza94.simpsons.model.repository.Character newCharacter =
                 new com.alvarozarza94.simpsons.model.repository.Character(generatedId,
-                        character.getFirtsName(), character.getLastName(), character.getPicture(), character.getAge(),
+                        character.getFirstName(), character.getLastName(), character.getPicture(), character.getAge(),
                         new ArrayList<>());
 
         newCharacter.setPhrases(fillPhrases(character, generatedId));
@@ -65,7 +67,7 @@ public class CharacterServieImpl implements CharacterService {
         deleteCharacter(id);
 
         characterValidated.setId(id);
-        characterValidated.setFirtsName(character.getFirtsName());
+        characterValidated.setFirstName(character.getFirstName());
         characterValidated.setLastName(character.getLastName());
         characterValidated.setAge(character.getAge());
         characterValidated.setPicture(character.getPicture());
@@ -94,6 +96,10 @@ public class CharacterServieImpl implements CharacterService {
         }
 
         return phrases;
+    }
+
+    private Sort sortByIdAsc() {
+        return new Sort(Sort.Direction.ASC, "id");
     }
 
 }
