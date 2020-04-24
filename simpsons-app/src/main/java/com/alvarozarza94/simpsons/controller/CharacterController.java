@@ -91,4 +91,7 @@ public class CharacterController {
         characterService.deleteCharacter(id);
     }
 
+    public void setDefaultMapper(MapperFacade defaultMapper) {
+        this.defaultMapper = defaultMapper;
+    }
 }
