@@ -1,12 +1,10 @@
 package com.alvarozarza94.simpsons.model.api;
 
 
-import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Getter
 public class CharacterPayload {
 
 
@@ -23,4 +21,24 @@ public class CharacterPayload {
     private Integer age;
 
     List<PhrasePayload> phrases;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public List<PhrasePayload> getPhrases() {
+        return phrases;
+    }
 }
