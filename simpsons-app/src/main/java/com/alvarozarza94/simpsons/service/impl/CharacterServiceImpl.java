@@ -9,7 +9,6 @@ import com.alvarozarza94.simpsons.repository.CharacterRepository;
 import com.alvarozarza94.simpsons.service.CharacterService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CharacterServieImpl implements CharacterService {
+public class CharacterServiceImpl implements CharacterService {
 
     @Autowired
     CharacterRepository characterRepository;
@@ -35,8 +34,13 @@ public class CharacterServieImpl implements CharacterService {
 
     @Override
     public Character getCharacterById(String id) {
-        Optional<com.alvarozarza94.simpsons.model.repository.Character> character = characterRepository.findById(id);
-        return defaultMapper.map(character.get(), Character.class);
+        Optional<com.alvarozarza94.simpsons.model.repository.Character> characterRepositoryObject = characterRepository.findById(id);
+        try {
+            com.alvarozarza94.simpsons.model.repository.Character character = characterRepositoryObject.get();
+            return defaultMapper.map(character, Character.class);
+        } catch (NullPointerException ex) {
+            return null;
+        }
     }
 
     @Override
@@ -97,6 +101,7 @@ public class CharacterServieImpl implements CharacterService {
         return phrases;
     }
 
-
-
+    public void setDefaultMapper(MapperFacade defaultMapper) {
+        this.defaultMapper = defaultMapper;
+    }
 }
