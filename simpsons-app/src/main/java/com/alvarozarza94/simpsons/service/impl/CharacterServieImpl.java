@@ -18,7 +18,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CharacterServieImpl implements CharacterService {
@@ -31,7 +30,7 @@ public class CharacterServieImpl implements CharacterService {
 
     @Override
     public List<Character> getCharacters() {
-        return defaultMapper.mapAsList(characterRepository.findAll(sortByIdAsc()), Character.class);
+        return defaultMapper.mapAsList(characterRepository.findAll(), Character.class);
     }
 
     @Override
@@ -98,8 +97,6 @@ public class CharacterServieImpl implements CharacterService {
         return phrases;
     }
 
-    private Sort sortByIdAsc() {
-        return new Sort(Sort.Direction.ASC, "id");
-    }
+
 
 }
