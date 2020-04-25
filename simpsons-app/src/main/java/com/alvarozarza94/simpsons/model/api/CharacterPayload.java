@@ -41,4 +41,8 @@ public class CharacterPayload {
     public List<PhrasePayload> getPhrases() {
         return phrases;
     }
+
+    public void setPhrases(List<PhrasePayload> phrases) {
+        this.phrases = phrases;
+    }
 }
