@@ -3,6 +3,7 @@ package com.alvarozarza94.simpsons.controller;
 
 import com.alvarozarza94.simpsons.model.api.CharacterPayload;
 import com.alvarozarza94.simpsons.model.service.Character;
+import com.alvarozarza94.simpsons.model.service.Phrase;
 import com.alvarozarza94.simpsons.service.CharacterService;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -45,7 +46,7 @@ public class CharacterControllerTests {
     public void getCharactersTest() {
 
         // Create mocked objects
-        List<Character> mockedCharacters = factory.manufacturePojo(ArrayList.class,Character.class);
+        List<Character> mockedCharacters = factory.manufacturePojo(ArrayList.class, Character.class);
 
         // When
         when(characterService.getCharacters()).thenReturn(mockedCharacters);
@@ -97,18 +98,50 @@ public class CharacterControllerTests {
         Character mockedCharacter = factory.manufacturePojo(Character.class);
 
         // When
-        when(characterService.updateCharacter(any(),any())).thenReturn(mockedCharacter);
-        com.alvarozarza94.simpsons.model.api.Character controllerCharacter = characterController.updateCharacter(mockedPayload,"test");
+        when(characterService.updateCharacter(any(), any())).thenReturn(mockedCharacter);
+        com.alvarozarza94.simpsons.model.api.Character controllerCharacter = characterController.updateCharacter(mockedPayload, "test");
 
         // Then
         assertThat(mockedCharacter).isNotNull();
         assertThat(mockedCharacter.getId()).isEqualTo(controllerCharacter.getId());
     }
 
+    @Test
     public void deleteCharacterTest() {
 
         characterController.deleteCharacter("test");
 
+    }
+
+    @Test
+    public void getCharacteresPhrases() {
+
+        // Create mocked objects
+        List<Phrase> mockedPhrases = factory.manufacturePojo(ArrayList.class, Phrase.class);
+
+        // When
+        when(characterService.getCharacteresPhrases(any())).thenReturn(mockedPhrases);
+        List<com.alvarozarza94.simpsons.model.api.Phrase> controllerPhrases = characterController.getCharacterPhrasesBySimpsonCharacterId("test");
+
+        // Then
+        assertThat(controllerPhrases).isNotNull();
+        assertThat(controllerPhrases.size()).isEqualTo(mockedPhrases.size());
+        assertThat(controllerPhrases.get(0).getId()).isEqualTo(mockedPhrases.get(0).getId());
+    }
+
+    @Test
+    public void addPhraseToSimpsonCharacterTest() {
+
+        // Create mocked objects
+        Phrase phrase = factory.manufacturePojo(Phrase.class);
+
+        // When
+        when(characterService.addPhraseToCharacter(any(), any())).thenReturn(phrase);
+        com.alvarozarza94.simpsons.model.api.Phrase controllerPhrase = characterController.addPhraseToSimpsonCharacter("random", null);
+
+        // Then
+        assertThat(controllerPhrase).isNotNull();
+        assertThat(controllerPhrase.getId()).isEqualTo(phrase.getId());
     }
 
 

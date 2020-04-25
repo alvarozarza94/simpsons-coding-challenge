@@ -2,6 +2,8 @@ package com.alvarozarza94.simpsons.controller;
 
 import com.alvarozarza94.simpsons.model.api.Character;
 import com.alvarozarza94.simpsons.model.api.CharacterPayload;
+import com.alvarozarza94.simpsons.model.api.Phrase;
+import com.alvarozarza94.simpsons.model.api.PhrasePayload;
 import com.alvarozarza94.simpsons.service.CharacterService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -89,6 +91,30 @@ public class CharacterController {
     @ApiOperation(value = "Delete a Simpson character by id")
     public void deleteCharacter(@ApiParam(value = "the Simpson character identifier", name = "id", required = true) @PathVariable(value = "id") String id) {
         characterService.deleteCharacter(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/{id}/phrases")
+    @ApiResponses({ //
+            @ApiResponse(code = HttpServletResponse.SC_OK, message = "OK", response = Character.class),
+            @ApiResponse(code = HttpServletResponse.SC_BAD_REQUEST, message = "ERROR", response = ResponseEntity.class), //
+    })
+    @ApiOperation(value = "Get Simpson phrases by character id")
+    public List<Phrase> getCharacterPhrasesBySimpsonCharacterId(@ApiParam(value = "the Simpson character identifier", name = "id", required = true) @PathVariable(value = "id") String id) {
+        return defaultMapper.mapAsList(characterService.getCharacteresPhrases(id), Phrase.class);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/{id}/phrases")
+    @ApiResponses({ //
+            @ApiResponse(code = HttpServletResponse.SC_OK, message = "OK", response = Character.class),
+            @ApiResponse(code = HttpServletResponse.SC_BAD_REQUEST, message = "ERROR", response = ResponseEntity.class), //
+    })
+
+    @ApiOperation(value = "Add phrase to a character")
+    public Phrase addPhraseToSimpsonCharacter(@ApiParam(value = "the Simpson character identifier", name = "id", required = true) @PathVariable(value = "id") String id,//
+                                              @Valid @RequestBody PhrasePayload phrasePayload) {
+        return defaultMapper.map(characterService.addPhraseToCharacter(id, phrasePayload), Phrase.class);
     }
 
     public void setDefaultMapper(MapperFacade defaultMapper) {

@@ -16,7 +16,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CharacterServiceImpl implements CharacterService {
@@ -34,13 +33,13 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public Character getCharacterById(String id) {
-        Optional<com.alvarozarza94.simpsons.model.repository.Character> characterRepositoryObject = characterRepository.findById(id);
-        try {
-            com.alvarozarza94.simpsons.model.repository.Character character = characterRepositoryObject.get();
-            return defaultMapper.map(character, Character.class);
-        } catch (NullPointerException ex) {
-            return null;
+        com.alvarozarza94.simpsons.model.repository.Character characterRepositoryObject = characterRepository.findById(id).orElse(null);
+
+        if (characterRepositoryObject != null) {
+            return defaultMapper.map(characterRepositoryObject, Character.class);
         }
+
+        return null;
     }
 
     @Override
@@ -60,36 +59,73 @@ public class CharacterServiceImpl implements CharacterService {
     @Override
     public Character updateCharacter(CharacterPayload character, String id) {
 
-        Optional<com.alvarozarza94.simpsons.model.repository.Character> oldCharacter = characterRepository.findById(id);
+        com.alvarozarza94.simpsons.model.repository.Character oldCharacter = getCharacterIfExists(id);
 
-        if (oldCharacter.get() == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Character not found");
-        }
-
-        com.alvarozarza94.simpsons.model.repository.Character characterValidated = oldCharacter.get();
         deleteCharacter(id);
 
-        characterValidated.setId(id);
-        characterValidated.setFirstName(character.getFirstName());
-        characterValidated.setLastName(character.getLastName());
-        characterValidated.setAge(character.getAge());
-        characterValidated.setPicture(character.getPicture());
+        oldCharacter.setId(id);
+        oldCharacter.setFirstName(character.getFirstName());
+        oldCharacter.setLastName(character.getLastName());
+        oldCharacter.setAge(character.getAge());
+        oldCharacter.setPicture(character.getPicture());
 
 
-        characterValidated.getPhrases().removeAll(characterValidated.getPhrases());
-        characterValidated.setPhrases(fillPhrases(character, id));
+        oldCharacter.getPhrases().removeAll(oldCharacter.getPhrases());
+        oldCharacter.setPhrases(fillPhrases(character, id));
 
 
-        return defaultMapper.map(characterRepository.save(characterValidated), Character.class);
-
+        return defaultMapper.map(characterRepository.save(oldCharacter), Character.class);
     }
+
 
     @Override
     public void deleteCharacter(String id) {
-        characterRepository.deleteById(id);
+
+        if (characterRepository.existsById(id)) {
+            characterRepository.deleteById(id);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Character not found");
+        }
     }
 
+    @Override
+    public List<com.alvarozarza94.simpsons.model.service.Phrase> getCharacteresPhrases(String id) {
+
+        com.alvarozarza94.simpsons.model.repository.Character characterRepositoryObject = characterRepository.findById(id).orElse(null);
+
+        if (characterRepositoryObject != null && !CollectionUtils.isEmpty(characterRepositoryObject.getPhrases())) {
+            return defaultMapper.mapAsList(characterRepositoryObject.getPhrases(), com.alvarozarza94.simpsons.model.service.Phrase.class);
+        }
+
+        return new ArrayList<>();
+    }
+
+    @Override
+    public com.alvarozarza94.simpsons.model.service.Phrase addPhraseToCharacter(String id, PhrasePayload phrasePayload) {
+
+        com.alvarozarza94.simpsons.model.repository.Character oldCharacter = getCharacterIfExists(id);
+        String generatedId = RandomStringFactory.createRandomString();
+
+        oldCharacter.getPhrases().add(new Phrase(generatedId, oldCharacter.getId(), phrasePayload.getPhrase()));
+        Phrase phrase = characterRepository.save(oldCharacter).getPhrases().stream().filter(x -> x.getId().equals(generatedId)).findFirst().orElse(null);
+        return defaultMapper.map(phrase, com.alvarozarza94.simpsons.model.service.Phrase.class);
+
+    }
+
+
+    private com.alvarozarza94.simpsons.model.repository.Character getCharacterIfExists(String id) {
+
+        com.alvarozarza94.simpsons.model.repository.Character oldCharacter = characterRepository.findById(id).orElse(null);
+
+        if (oldCharacter == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Character not found");
+        }
+        return oldCharacter;
+    }
+
+
     private List<Phrase> fillPhrases(CharacterPayload characterPayload, String characterId) {
+
         List<Phrase> phrases = new ArrayList<>();
 
         if (!CollectionUtils.isEmpty(characterPayload.getPhrases())) {
