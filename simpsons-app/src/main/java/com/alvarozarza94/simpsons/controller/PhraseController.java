@@ -20,7 +20,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/phrases")
+@RequestMapping("/api/phrase")
 public class PhraseController {
 
     @Autowired

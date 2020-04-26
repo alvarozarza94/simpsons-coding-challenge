@@ -1,0 +1,765 @@
+{
+	"info": {
+		"_postman_id": "2035a78f-3884-4334-b904-67c8f04b3891",
+		"name": "Simpsons",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetAllCharacters",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "159c46d9-440c-4703-b0f6-eb1ea06196fc",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"  \t\tpm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"        pm.response.to.have.body();",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8083/api/character",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"character"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCharacterByIdOK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e1bf0299-81dd-42aa-bd16-a76c9df6f7c5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"  \t\tpm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"        pm.response.to.have.body();",
+							"});",
+							"",
+							"var jsonData = pm.response.json(); ",
+							"pm.test(\"Verify Json values\", function () { ",
+							"    pm.expect(jsonData.id).is.to.equal(\"59edee68706374dfa957842f\"); ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8083/api/character/59edee68706374dfa957842f",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"character",
+						"59edee68706374dfa957842f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCharacterByIdKO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b5c78229-db57-42df-b5ac-e2205e27f025",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"tests[\"Response is empty\"] = pm.response !== null"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8083/api/character/59edee68706374dfa95",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"character",
+						"59edee68706374dfa95"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddCharacterOK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "57e33021-3125-4bb8-bb6a-999f185b4d11",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"",
+							"var jsonData = pm.response.json(); ",
+							"pm.test(\"Verify Json values\", function () { ",
+							"    pm.expect(jsonData.age).is.to.equal(0);",
+							"    pm.expect(jsonData.firstName).is.to.equal(\"string\"); ",
+							"    pm.expect(jsonData.lastName).is.to.equal(\"string\");  ",
+							"});",
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"        pm.response.to.have.body();",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"age\": 0,\n  \"firstName\": \"string\",\n  \"lastName\": \"string\",\n  \"phrases\": [\n    {\n      \"phrase\": \"string\"\n    }\n  ],\n  \"picture\": \"string\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8083/api/character/",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"character",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddCharacterBadRequestKO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2c2b4eca-90ba-4432-b446-ec97ccdf5ee0",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"",
+							"",
+							"var jsonData = pm.response.json(); ",
+							"pm.test(\"Verify Json values\", function () { ",
+							"   ",
+							"    pm.expect(jsonData.error).is.to.equal(\"Bad Request\"); ",
+							"    pm.expect(jsonData.message).is.to.equal(\"Validation failed for object='characterPayload'. Error count: 1\"); ",
+							"});",
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"        pm.response.to.have.body();",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"age\": 0,\n  \"lastName\": \"string\",\n  \"phrases\": [\n    {\n      \"phrase\": \"string\"\n    }\n  ],\n  \"picture\": \"string\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8083/api/character/",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"character",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteCharacterOK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "838c6053-e635-4959-b08d-9c5e585ab91f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8083/api/character/59edee68ea392a3947485d41",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"character",
+						"59edee68ea392a3947485d41"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteCharacterKO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7da278c1-36c5-4dd0-b72a-3301cea9bdab",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"",
+							"",
+							"var jsonData = pm.response.json(); ",
+							"pm.test(\"Verify Json values\", function () { ",
+							"   ",
+							"    pm.expect(jsonData.error).is.to.equal(\"Not Found\"); ",
+							"    pm.expect(jsonData.message).is.to.equal(\"Character not found\"); ",
+							"});",
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"        pm.response.to.have.body();",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8083/api/character/notExistingId",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"character",
+						"notExistingId"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateCharacterTestValidationKO",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9b64b760-3bd7-4c9c-8d26-fe7e430fc1d5",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "de509e58-e0ea-40a4-a5f8-6a3a4a7b9985",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"",
+							"",
+							"var jsonData = pm.response.json(); ",
+							"pm.test(\"Verify Json values\", function () { ",
+							"   ",
+							"    pm.expect(jsonData.error).is.to.equal(\"Bad Request\"); ",
+							"    pm.expect(jsonData.message).is.to.equal(\"Validation failed for object='characterPayload'. Error count: 1\"); ",
+							"});",
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"        pm.response.to.have.body();",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"age\": 0,\n  \"lastName\": \"string\",\n  \"phrases\": [\n    {\n      \"phrase\": \"string\"\n    }\n  ],\n  \"picture\": \"string\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8083/api/character/59edee68706374dfa957842f",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"character",
+						"59edee68706374dfa957842f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetPhrasesByCharacterOK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "68709981-027b-4cc5-9d5f-713936198034",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"  \t\tpm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"        pm.response.to.have.body();",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8083/api/character/59edee689509e51682ff8e02/phrase",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"character",
+						"59edee689509e51682ff8e02",
+						"phrase"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetPhrasesByCharacterKO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c96bfc1f-1d61-4186-b8a4-172f915a0e5b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"tests[\"Response is empty\"] = pm.response !== null"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8083/api/character/nonExistingId/phrase",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"character",
+						"nonExistingId",
+						"phrase"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddPhraseToCharacterOK",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c9cbfce8-60d1-4600-85d3-60e9ef4100d3",
+						"exec": [
+							"tests[\"Response is not empty\"] = pm.response !== null"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"phrase\": \"string\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8083/api/character/59edee689509e51682ff8e02/phrase",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"character",
+						"59edee689509e51682ff8e02",
+						"phrase"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllPhrases",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "297c8e7d-ca0e-44a4-b90b-3ccee60c2cbb",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"  \t\tpm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"        pm.response.to.have.body();",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8083/api/phrase",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"phrase"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeletePhraseByIdOK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "94195702-b587-4669-85af-d583040fceb7",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8083/api/phrase/59edff64ac4dccc4b0e35784",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"phrase",
+						"59edff64ac4dccc4b0e35784"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeletePhraseByIdKO",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f8498eb7-f76d-4f2b-815e-e713dd00ca28",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9179ff19-af70-4c12-bd1b-717770afbc6a",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"",
+							"",
+							"var jsonData = pm.response.json(); ",
+							"pm.test(\"Verify Json values\", function () { ",
+							"   ",
+							"    pm.expect(jsonData.error).is.to.equal(\"Not Found\"); ",
+							"    pm.expect(jsonData.message).is.to.equal(\"Phrase not found\"); ",
+							"});",
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"        pm.response.to.have.body();",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8083/api/phrase/nonExistingId",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"phrase",
+						"nonExistingId"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetPhraseByIdOK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b0bdad1c-9fdb-472a-abbf-e8957be18f03",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"  \t\tpm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"        pm.response.to.have.body();",
+							"});",
+							"",
+							"var jsonData = pm.response.json(); ",
+							"pm.test(\"Verify Json values\", function () { ",
+							"    pm.expect(jsonData.phrase).is.to.equal(\"Aren’t we forgetting the true meaning of Christmas: the birth of Santa.\"); ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8083/api/phrase/59edff643d4737e47c71835c",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"phrase",
+						"59edff643d4737e47c71835c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetPhraseByIdKO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "93e79474-88df-4c22-b69d-4759eba10f87",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"tests[\"Response is empty\"] = pm.response !== null"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8083/api/phrase/59edff643d4737e47c718",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"phrase",
+						"59edff643d4737e47c718"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

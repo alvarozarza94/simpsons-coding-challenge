@@ -94,7 +94,7 @@ public class CharacterController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/{id}/phrases")
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/{id}/phrase")
     @ApiResponses({ //
             @ApiResponse(code = HttpServletResponse.SC_OK, message = "OK", response = Character.class),
             @ApiResponse(code = HttpServletResponse.SC_BAD_REQUEST, message = "ERROR", response = ResponseEntity.class), //
@@ -105,7 +105,7 @@ public class CharacterController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/{id}/phrases")
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/{id}/phrase")
     @ApiResponses({ //
             @ApiResponse(code = HttpServletResponse.SC_OK, message = "OK", response = Character.class),
             @ApiResponse(code = HttpServletResponse.SC_BAD_REQUEST, message = "ERROR", response = ResponseEntity.class), //
