@@ -21,8 +21,6 @@ For run the tests:
 4. Choose the number of iterations
 5. See the results
 
-The microservice must have deployed in localhost:8083
-
 **Interesting endpoints:**
 
 `User Interface` : <http://localhost:8083/>
