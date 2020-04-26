@@ -10,6 +10,19 @@
 
 The coverage of the unit tests is 100% over the code with 32 unitary tests
 
+#### Run integration tests
+
+The integration tests are in a Postman Collection 
+For run the tests:
+
+1. Postman->File->Import file
+2. Choose file Simpsons.postman_collection.json (root repository)
+3. Run this collection (play symbol on the collection)
+4. Choose the number of iterations
+5. See the results
+
+The microservice must have deployed in localhost:8083
+
 **Interesting endpoints:**
 
 `User Interface` : <http://localhost:8083/>
